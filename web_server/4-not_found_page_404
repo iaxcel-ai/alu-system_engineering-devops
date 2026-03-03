@@ -10,6 +10,8 @@ echo "Holberton School" | sudo tee /var/www/html/index.html > /dev/null
 echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html > /dev/null
 
 # Add redirect rule for /redirect_me and custom 404 error page directive
-sudo sed -i 's|server_name _;|server_name _;\n\trewrite ^/redirect_me https://www.youtube.com/ permanent;\n\terror_page 404 /404.html;|' /etc/nginx/sites-available/default
+# Using a more robust sed pattern that handles optional whitespace
+sed_cmd="s|server_name _;|server_name _;\n\trewrite ^/redirect_me https://www.youtube.com/ permanent;\n\terror_page 404 /404.html;|"
+sudo sed -i "$sed_cmd" /etc/nginx/sites-available/default
 
 sudo service nginx restart
