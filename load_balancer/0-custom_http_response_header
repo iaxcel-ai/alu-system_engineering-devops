@@ -8,6 +8,7 @@ sudo apt-get -y install nginx ufw
 sudo ufw allow 'Nginx HTTP'
 
 # Add custom header X-Served-By with the hostname of the server
+sudo sed -i '/add_header X-Served-By/d' /etc/nginx/nginx.conf
 sudo sed -i "/http {/a \\\tadd_header X-Served-By \$hostname;" /etc/nginx/nginx.conf
 
 sudo service nginx restart
