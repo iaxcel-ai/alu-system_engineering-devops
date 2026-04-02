@@ -3,4 +3,8 @@
 grep -q '^nginx:' /etc/passwd || useradd --system --no-create-home nginx
 sed -i 's/^user .*;/user nginx;/' /etc/nginx/nginx.conf
 sed -i 's/listen 80/listen 8080/g' /etc/nginx/sites-enabled/default
-service nginx restart
+chown -R nginx /var/log/nginx
+mkdir -p /var/lib/nginx && chown -R nginx /var/lib/nginx
+touch /var/run/nginx.pid && chown nginx /var/run/nginx.pid
+nginx -s stop 2>/dev/null; sleep 1
+sudo -s /bin/bash nginx -c '/usr/sbin/nginx'
